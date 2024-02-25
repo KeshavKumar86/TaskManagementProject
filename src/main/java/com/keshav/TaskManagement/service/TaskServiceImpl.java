@@ -4,6 +4,7 @@ import com.keshav.TaskManagement.entity.Task;
 import com.keshav.TaskManagement.exceptionhandling.TaskNotFoundException;
 import com.keshav.TaskManagement.repository.TaskRepository;
 import com.keshav.TaskManagement.validation.DateValidatorUsingDateFormat;
+import com.keshav.TaskManagement.validation.TaskValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +20,13 @@ public class TaskServiceImpl implements TaskService{
 
     //inject TaskRepository
     private final TaskRepository taskRepository;
+    private final TaskValidator taskValidator;
     //constructor injection
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository)
+    public TaskServiceImpl(TaskRepository taskRepository,TaskValidator taskValidator)
     {
         this.taskRepository=taskRepository;
+        this.taskValidator=taskValidator;
     }
     @Override
     public List<Task> findAll() {
@@ -44,8 +47,7 @@ public class TaskServiceImpl implements TaskService{
     public Task save(Task task)
     {
          //perform validation
-         validateTask(task);
-
+        taskValidator.isValid(task);
          return taskRepository.save(task);
 
     }
@@ -61,7 +63,7 @@ public class TaskServiceImpl implements TaskService{
 
         }
         task.setId(id);
-        validateTask(task);
+        taskValidator.isValid(task);
         return taskRepository.update(task);
 
     }
@@ -75,36 +77,4 @@ public class TaskServiceImpl implements TaskService{
         taskRepository.delete(task);
     }
 
-
-    public void validateTask(Task task)
-    {
-        //validate task
-        if(task==null)
-            throw new RuntimeException("please provide a valid task");
-
-        //validate that title cannot be null
-        if(task.getTitle()==null || task.getTitle().isEmpty())
-            throw new RuntimeException("Title cannot be empty for Task");
-
-        //validate that date should be valid and future date
-        DateValidatorUsingDateFormat formatter = new DateValidatorUsingDateFormat("yyyy-MM-dd");
-        //get the current date to compare
-        LocalDate currentDate = LocalDate.now();
-        // Format current date as localdate
-        DateTimeFormatter dtformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate nowDate = LocalDate.parse(currentDate.format(dtformatter), dtformatter);
-
-
-        if(!formatter.isValid(task.getDueDate().toString()) || !task.getDueDate().isAfter(nowDate))
-            throw new RuntimeException("Date should be a valid date");
-
-        //validate that Priority should be one of: LOW, MEDIUM, HIGH.
-        if(task.getPriority()==null || task.getPriority().isEmpty() || !(task.getPriority().equals("LOW") || task.getPriority().equals("MEDIUM") || task.getPriority().equals("HIGH")) )
-            throw  new RuntimeException("Please provide a valid Priority: LOW, MEDIUM, HIGH");
-
-        // validate that Status should be one of: TODO, IN_PROGRESS, DONE.
-        if(task.getStatus()==null || task.getStatus().isEmpty() || !(task.getStatus().equals("TODO") || task.getStatus().equals("IN_PROGRESS") || task.getStatus().equals("DONE")) )
-            throw  new RuntimeException("Please provide a valid Status: TODO, IN_PROGRESS, DONE");
-
-    }
 }
