@@ -17,21 +17,29 @@ public class DateValidatorUsingDateFormat implements DateValidator {
     @Override
     public boolean isValid(String dateString) {
         //validate against regular expression
-        boolean isValid;
-        Pattern pattern = Pattern.compile(DATE_REGEX);
-        Matcher matcher = pattern.matcher(dateString);
-        isValid= matcher.matches();
+        boolean isValid=false;
 
-        DateFormat sdf=new SimpleDateFormat(this.dateFormat);
-        sdf.setLenient(false);
-        if(isValid)
-        {
-            try {
-                sdf.parse(dateString);
-            } catch (ParseException e) {
-                isValid=false;
-            }
+        try{
+            Pattern pattern = Pattern.compile(DATE_REGEX);
+            Matcher matcher = pattern.matcher(dateString);
+            isValid= matcher.matches();
         }
+        catch(Exception e)
+        {
+            throw new RuntimeException("Date is not valid");
+        }
+
+
+//        DateFormat sdf=new SimpleDateFormat(this.dateFormat);
+//        sdf.setLenient(false);
+//        if(isValid)
+//        {
+//            try {
+//                sdf.parse(dateString);
+//            } catch (ParseException e) {
+//                isValid=false;
+//            }
+//        }
         return isValid;
     }
 }
