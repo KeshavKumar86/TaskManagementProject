@@ -8,17 +8,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class TaskSecurityConfig {
     @Bean
-    public InMemoryUserDetailsManager userAndRoles()
+    public UserDetailsManager userAndRoles(DataSource dataSource)
     {
-        UserDetails user1=User.builder().username("priyam").password("{noop}test1234").roles("Developer").build();
-        UserDetails user2=User.builder().username("keshav").password("{noop}test1234").roles("Admin").build();
-        UserDetails user3=User.builder().username("smriti").password("{noop}test1234").roles("Manager").build();
-        return new InMemoryUserDetailsManager(user1,user2,user3);
+        return new JdbcUserDetailsManager(dataSource);
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
