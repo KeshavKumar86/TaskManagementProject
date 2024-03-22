@@ -7,10 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/api")
@@ -66,5 +62,12 @@ public class TaskRestController {
     public ResponseEntity<String> delete(@PathVariable("taskId") int id)
     {   taskService.delete(id);
         return new ResponseEntity<>("Task with id: "+id+" Deleted ", HttpStatus.NO_CONTENT);
+    }
+    //endpoint to search a task by title
+    @GetMapping("/tasks/search")
+    public List<Task> searchTask(@RequestParam(name = "title") String title)
+    {
+        return taskService.searchTask(title);
+
     }
 }

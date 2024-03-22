@@ -47,4 +47,12 @@ public class TaskRepositoryImpl implements TaskRepository {
         entityManager.remove(task);
 
     }
+
+    @Override
+    public List<Task> searchTask(String title) {
+        TypedQuery<Task> query = entityManager.createQuery("from Task where title=:title",Task.class);
+        query.setParameter("title",title);
+        return query.getResultList();
+
+    }
 }

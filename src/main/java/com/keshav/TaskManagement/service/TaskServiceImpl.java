@@ -3,17 +3,11 @@ package com.keshav.TaskManagement.service;
 import com.keshav.TaskManagement.entity.Task;
 import com.keshav.TaskManagement.exceptionhandling.TaskNotFoundException;
 import com.keshav.TaskManagement.repository.TaskRepository;
-import com.keshav.TaskManagement.validation.DateValidatorUsingDateFormat;
 import com.keshav.TaskManagement.validation.TaskValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 @Service
 public class TaskServiceImpl implements TaskService{
@@ -36,7 +30,7 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public Task findById(int id) {
-        Task task= taskRepository.findById(id);
+        Task task = taskRepository.findById(id);
         if(task==null)
         {
             throw new TaskNotFoundException("Task not present with id:"+id);
@@ -75,6 +69,12 @@ public class TaskServiceImpl implements TaskService{
         if(task == null)
             throw new RuntimeException("Task to be deleted not present with id: "+id);
         taskRepository.delete(task);
+    }
+
+    @Override
+    public List<Task> searchTask(String title) {
+        return taskRepository.searchTask(title);
+
     }
 
 }

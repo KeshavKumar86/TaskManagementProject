@@ -11,4 +11,5 @@ public interface TaskRepository  {
     public Task save(Task task);
     public  Task update(Task task);
     public void delete(Task  task);
+    public List<Task> searchTask(String title);
 }

@@ -30,6 +30,7 @@ public class TaskSecurityConfig {
                                             configurer
                                                     .requestMatchers(HttpMethod.GET,"/api/tasks").hasRole("Developer")
                                                     .requestMatchers(HttpMethod.GET,"/api/tasks/**").hasRole("Developer")
+                                                    .requestMatchers(HttpMethod.GET,"/api/tasks/search/**").hasRole("Developer")
                                                     .requestMatchers(HttpMethod.POST,"/api/tasks").hasRole("Manager")
                                                     .requestMatchers(HttpMethod.PUT,"/api/tasks/**").hasRole("Manager")
                                                     .requestMatchers(HttpMethod.DELETE,"/api/tasks/**").hasRole("Admin")

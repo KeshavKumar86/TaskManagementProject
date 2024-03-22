@@ -15,9 +15,8 @@ public class TaskRestExceptionHandler {
         taskErrorResponse.setMessage(exception.getMessage());
         taskErrorResponse.setStatus(HttpStatus.NOT_FOUND.value());
         taskErrorResponse.setTimeStamp(System.currentTimeMillis());
-        ResponseEntity<TaskErrorResponse> response=new ResponseEntity<>(taskErrorResponse,HttpStatus.NOT_FOUND);
 
-        return response;
+        return new ResponseEntity<>(taskErrorResponse,HttpStatus.NOT_FOUND);
     }
     //method to handle general exceptions
     @ExceptionHandler
@@ -28,9 +27,8 @@ public class TaskRestExceptionHandler {
         taskErrorResponse.setMessage(exception.getMessage());
         taskErrorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         taskErrorResponse.setTimeStamp(System.currentTimeMillis());
-        ResponseEntity<TaskErrorResponse> response=new ResponseEntity<>(taskErrorResponse,HttpStatus.BAD_REQUEST);
 
-        return response;
+        return new ResponseEntity<>(taskErrorResponse,HttpStatus.BAD_REQUEST);
     }
 
 }

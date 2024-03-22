@@ -12,4 +12,5 @@ public interface TaskService {
     public Task save(Task task);
     public  Task update(int id, Task task);
     public void delete(int id);
+    public List<Task> searchTask(String title);
 }
