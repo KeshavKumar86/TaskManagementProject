@@ -41,7 +41,7 @@ public class TaskServiceImpl implements TaskService{
     public Task save(Task task)
     {
          //perform validation
-        taskValidator.isValid(task);
+         taskValidator.isValid(task);
          return taskRepository.save(task);
 
     }

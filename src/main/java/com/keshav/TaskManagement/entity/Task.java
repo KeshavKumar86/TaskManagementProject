@@ -39,6 +39,13 @@ public class Task {
         this.priority = priority;
         this.status = status;
     }
+    public Task(String title, String description, LocalDate dueDate, String priority, String status) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.status = status;
+    }
 
 
     //define setters/getters
